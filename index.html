@@ -1,175 +1,307 @@
 <!DOCTYPE html><html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Study Reminder</title><style>
-body { font-family: Arial, sans-serif; margin: 0; background: linear-gradient(to right, #4facfe, #00f2fe);} 
-header { color: white; text-align: center; padding: 20px; font-size: 22px; }
-.container { max-width: 500px; margin: auto; padding: 15px; }
-.card { background: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);} 
-input { width: 100%; padding: 10px; margin: 5px 0; border-radius: 8px; border: 1px solid #ccc;} 
-button { width: 100%; padding: 10px; border-radius: 8px; border: none; background: #4facfe; color: white; font-weight: bold; cursor: pointer;} 
-button:hover { background: #007bff;} 
-.hidden { display:none; }
-</style></head><body>
-<header>Smart Study Reminder System</header><div class="container"><!-- REGISTER --><div class="card" id="registerCard">
-<h3>Create Account</h3>
-<input type="email" id="regEmail" placeholder="Enter email">
-<input type="tel" id="regPhone" placeholder="Enter phone number">
-<input type="password" id="regPassword" placeholder="Enter password">
-<input type="password" id="regConfirm" placeholder="Confirm password">
-<button onclick="register()">Register</button>
-</div><!-- LOGIN --><div class="card hidden" id="loginCard">
-<h3>Login</h3>
-<input type="email" id="loginEmail" placeholder="Enter email">
-<input type="password" id="loginPassword" placeholder="Enter password">
-<button onclick="login()">Login</button>
-</div><!-- APP --><div id="app" class="hidden">
-<button onclick="logout()">Logout</button>
-<div class="card">
-<h3>Add Task</h3>
-<input type="text" id="taskInput" placeholder="Enter task">
-<input type="datetime-local" id="timeInput">
-<button onclick="addTask()">Add Task</button>
-</div><div class="card">
-<h3>Your Tasks</h3>
-<ul id="taskList"></ul>
-</div><div class="card">
-<h3>Study Timer</h3>
-<input type="number" id="customTime" placeholder="Enter minutes">
-<p id="timerDisplay">00:00</p>
-<button onclick="startTimer()">Start</button>
-<button onclick="resetTimer()">Reset</button>
-</div>
-</div></div><script>
-// REGISTER
-function register(){
-  const email = document.getElementById("regEmail").value;
-  const phone = document.getElementById("regPhone").value;
-  const pass = document.getElementById("regPassword").value;
-  const confirm = document.getElementById("regConfirm").value;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon Chirwa Smart Study Remainder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 12px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        section {
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        h2 {
+            color: blue;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #aaa;
+        }
+        input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="time"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        #dashboard {
+            display: none;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        .timer-container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body><header>
+    <h1>Simon Chirwa Smart Study Remainder</h1>
+</header>
 
-  if(!email || !phone || !pass || !confirm){
-    alert("Fill all fields");
-    return;
-  }
+<main>
+    <!-- LOGIN / CREATE ACCOUNT -->
+    <div class="form-container" id="loginForm">
+        <h2>Login or Create Account</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="tel" id="number" placeholder="Phone Number">
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+        <button onclick="createAccount()">Create Account</button>
+        <button onclick="login()">Login</button>
+        <p id="loginMessage"></p>
+    </div>
 
-  if(pass !== confirm){
-    alert("Passwords do not match");
-    return;
-  }
+    <!-- DASHBOARD -->
+    <div id="dashboard">
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#service">Service</a>
+            <a href="#timer">Timer</a>
+            <a href="#settings">Settings</a>
+            <a href="#howto">How to Use</a>
+        </nav>
 
-  localStorage.setItem("user", JSON.stringify({email, phone, pass}));
+        <section id="home">
+            <h2>Home Page</h2>
+            <p><strong>Welcome to Simon Chirwa Smart Study Remainder Web</strong></p>
+            <p><strong>Aim:</strong> Improve your time schedule by 98%.</p>
+            <p><strong>Our Service:</strong> This website helps you make your own time schedule for punctuality, time management and effective studying.</p>
+            <p><strong>Empowering Zambian students and citizens:</strong> We provide comprehensive time schedule support to help students achieve their education dreams and build successful careers.</p>
+            <p><strong>New Updates:</strong> <span id="updates">No updates yet.</span></p>
+            <p><strong>Quick Access:</strong> Simonchirwa1502@gmail.com<br>Contact: 0772825863 or 0967867406</p>
+        </section>
 
-  alert("Account created. Please login.");
+        <section id="service">
+            <h2>Service</h2>
+            <h3>1. Studying Reminder Timer and Purpose</h3>
+            <p>Helps you set timers for studying sessions to maintain focus and track study durations.</p>
+            <h3>2. Automatic Timetable Schedule Reminder</h3>
+            <p>Automatically reminds you of your planned tasks, classes, or study sessions.</p>
+            <h3>3. Provision for Documents & Set Own Timer</h3>
+            <p>You can upload study materials and create custom timers for different activities.</p>
+        </section>
 
-  document.getElementById("registerCard").classList.add("hidden");
-  document.getElementById("loginCard").classList.remove("hidden");
-}
+        <section id="timer">
+            <h2>Timer</h2>
+            <div class="timer-container">
+                <h3>1. Studying Reminder</h3>
+                <input type="date" id="studyDate">
+                <input type="time" id="studyTime">
+                <button onclick="setStudyReminder()">Set Study Reminder</button>
+                <p id="studyMsg"></p>
+            </div>
 
-// LOGIN
-function login(){
-  const email = document.getElementById("loginEmail").value;
-  const pass = document.getElementById("loginPassword").value;
+            <div class="timer-container">
+                <h3>2. Timetable Reminder</h3>
+                <input type="date" id="timetableDate">
+                <input type="time" id="timetableTime">
+                <button onclick="setTimetableReminder()">Set Timetable Reminder</button>
+                <p id="timetableMsg"></p>
+            </div>
 
-  const savedUser = JSON.parse(localStorage.getItem("user"));
+            <div class="timer-container">
+                <h3>3. Set Own Reminder</h3>
+                <input type="text" id="ownReminderName" placeholder="Reminder Name">
+                <input type="date" id="ownDate">
+                <input type="time" id="ownTime">
+                <button onclick="setOwnReminder()">Set Reminder</button>
+                <p id="ownMsg"></p>
+            </div>
+        </section>
 
-  if(!savedUser){
-    alert("No account found. Please register.");
-    return;
-  }
+        <section id="settings">
+            <h2>Settings</h2>
+            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <h3>Account Settings</h3>
+            <p>Email: <span id="accEmail"></span></p>
+            <p>Username: <span id="accUsername"></span></p>
+            <p>Password: ********</p>
+            <h3>Change Password</h3>
+            <input type="password" id="newPassword" placeholder="New Password">
+            <button onclick="updatePassword()">Update Password</button>
+            <p id="updateMessage"></p>
+        </section>
 
-  if(email === savedUser.email && pass === savedUser.pass){
-    document.getElementById("loginCard").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-  } else {
-    alert("Invalid login details");
-  }
-}
+        <section id="howto">
+            <h2>How to Use</h2>
+            <ol>
+                <li>Login or create an account with your email, phone number, username, and password.</li>
+                <li>Navigate through Home, Service, Timer, Settings, and How to Use sections.</li>
+                <li>Use the Timer section to set studying reminders, timetable reminders, or your own custom reminders.</li>
+                <li>Upload documents or study materials if needed.</li>
+                <li>Customize your account settings, toggle dark mode, or update your password.</li>
+                <li>Follow on-screen instructions to set your reminders effectively.</li>
+            </ol>
+        </section>
+    </div>
+</main>
 
-function logout(){
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("loginCard").classList.remove("hidden");
-}
+<footer>
+    &copy; 2026 Simon Chirwa Smart Study Remainder
+</footer>
 
-// TASK SYSTEM
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+<script>
+    // Account creation & login using localStorage
+    function createAccount() {
+        const email = document.getElementById('email').value;
+        const number = document.getElementById('number').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const message = document.getElementById('loginMessage');
 
-function saveTasks(){
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+        if (!email || !number || !username || !password || !confirmPassword) {
+            message.textContent = 'Please fill all fields!';
+            message.style.color = 'red';
+            return;
+        }
 
-function renderTasks(){
-  const list = document.getElementById("taskList");
-  list.innerHTML = "";
+        if (password !== confirmPassword) {
+            message.textContent = 'Passwords do not match!';
+            message.style.color = 'red';
+            return;
+        }
 
-  tasks.forEach((task,index)=>{
-    const li = document.createElement("li");
-    li.textContent = task.name + " - " + task.time;
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        if (users.some(u => u.email === email)) {
+            message.textContent = 'Email already exists!';
+            message.style.color = 'red';
+            return;
+        }
 
-    const btn = document.createElement("button");
-    btn.textContent = "Done";
-    btn.onclick = ()=>{
-      tasks.splice(index,1);
-      saveTasks();
-      renderTasks();
-    };
+        users.push({ email, number, username, password });
+        localStorage.setItem('users', JSON.stringify(users));
 
-    li.appendChild(btn);
-    list.appendChild(li);
-  });
-}
-
-function addTask(){
-  const name = document.getElementById("taskInput").value;
-  const time = document.getElementById("timeInput").value;
-
-  if(!name || !time){
-    alert("Fill all fields");
-    return;
-  }
-
-  tasks.push({name,time});
-  saveTasks();
-  renderTasks();
-}
-
-// TIMER
-let time = 0;
-let timer = null;
-
-function startTimer(){
-  const input = document.getElementById("customTime").value;
-
-  if(!input){
-    alert("Enter time");
-    return;
-  }
-
-  if(timer) return;
-
-  time = input * 60;
-
-  timer = setInterval(()=>{
-    let m = Math.floor(time/60);
-    let s = time % 60;
-    document.getElementById("timerDisplay").textContent = m + ":" + (s<10?"0":"") + s;
-    time--;
-
-    if(time < 0){
-      clearInterval(timer);
-      timer = null;
-      alert("Time is up!");
+        message.textContent = 'Account created successfully! Please login.';
+        message.style.color = 'green';
     }
-  },1000);
-}
 
-function resetTimer(){
-  clearInterval(timer);
-  timer = null;
-  document.getElementById("timerDisplay").textContent = "00:00";
-}
+    function login() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const message = document.getElementById('loginMessage');
 
-renderTasks();
-</script></body>
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (user) {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+
+            document.getElementById('accEmail').textContent = user.email;
+            document.getElementById('accUsername').textContent = user.username;
+        } else {
+            message.textContent = 'Invalid email or password!';
+            message.style.color = 'red';
+        }
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+    }
+
+    function updatePassword() {
+        const newPass = document.getElementById('newPassword').value;
+        const email = document.getElementById('accEmail').textContent;
+        const msg = document.getElementById('updateMessage');
+
+        if (!newPass) {
+            msg.textContent = 'Enter new password!';
+            msg.style.color = 'red';
+            return;
+        }
+
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let user = users.find(u => u.email === email);
+        if (user) {
+            user.password = newPass;
+            localStorage.setItem('users', JSON.stringify(users));
+            msg.textContent = 'Password updated successfully!';
+            msg.style.color = 'green';
+            document.getElementById('newPassword').value = '';
+        }
+    }
+
+    // Timer Functions
+    function setStudyReminder() {
+        const date = document.getElementById('studyDate').value;
+        const time = document.getElementById('studyTime').value;
+        document.getElementById('studyMsg').textContent = `Study reminder set for ${date} at ${time}`;
+    }
+
+    function setTimetableReminder() {
+        const date = document.getElementById('timetableDate').value;
+        const time = document.getElementById('timetableTime').value;
+        document.getElementById('timetableMsg').textContent = `Timetable reminder set for ${date} at ${time}`;
+    }
+
+    function setOwnReminder() {
+        const name = document.getElementById('ownReminderName').value;
+        const date = document.getElementById('ownDate').value;
+        const time = document.getElementById('ownTime').value;
+        document.getElementById('ownMsg').textContent = `Reminder '${name}' set for ${date} at ${time}`;
+    }
+</script>
+
+</body>
 </html>
