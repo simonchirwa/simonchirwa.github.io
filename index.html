@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Study Reminder</title><style>
+body { font-family: Arial, sans-serif; margin: 0; background: linear-gradient(to right, #4facfe, #00f2fe);} 
+header { color: white; text-align: center; padding: 20px; font-size: 22px; }
+.container { max-width: 500px; margin: auto; padding: 15px; }
+.card { background: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);} 
+input { width: 100%; padding: 10px; margin: 5px 0; border-radius: 8px; border: 1px solid #ccc;} 
+button { width: 100%; padding: 10px; border-radius: 8px; border: none; background: #4facfe; color: white; font-weight: bold; cursor: pointer;} 
+button:hover { background: #007bff;} 
+.hidden { display:none; }
+</style></head><body>
+<header>Smart Study Reminder System</header><div class="container"><!-- REGISTER --><div class="card" id="registerCard">
+<h3>Create Account</h3>
+<input type="email" id="regEmail" placeholder="Enter email">
+<input type="tel" id="regPhone" placeholder="Enter phone number">
+<input type="password" id="regPassword" placeholder="Enter password">
+<input type="password" id="regConfirm" placeholder="Confirm password">
+<button onclick="register()">Register</button>
+</div><!-- LOGIN --><div class="card hidden" id="loginCard">
+<h3>Login</h3>
+<input type="email" id="loginEmail" placeholder="Enter email">
+<input type="password" id="loginPassword" placeholder="Enter password">
+<button onclick="login()">Login</button>
+</div><!-- APP --><div id="app" class="hidden">
+<button onclick="logout()">Logout</button>
+<div class="card">
+<h3>Add Task</h3>
+<input type="text" id="taskInput" placeholder="Enter task">
+<input type="datetime-local" id="timeInput">
+<button onclick="addTask()">Add Task</button>
+</div><div class="card">
+<h3>Your Tasks</h3>
+<ul id="taskList"></ul>
+</div><div class="card">
+<h3>Study Timer</h3>
+<input type="number" id="customTime" placeholder="Enter minutes">
+<p id="timerDisplay">00:00</p>
+<button onclick="startTimer()">Start</button>
+<button onclick="resetTimer()">Reset</button>
+</div>
+</div></div><script>
+// REGISTER
+function register(){
+  const email = document.getElementById("regEmail").value;
+  const phone = document.getElementById("regPhone").value;
+  const pass = document.getElementById("regPassword").value;
+  const confirm = document.getElementById("regConfirm").value;
+
+  if(!email || !phone || !pass || !confirm){
+    alert("Fill all fields");
+    return;
+  }
+
+  if(pass !== confirm){
+    alert("Passwords do not match");
+    return;
+  }
+
+  localStorage.setItem("user", JSON.stringify({email, phone, pass}));
+
+  alert("Account created. Please login.");
+
+  document.getElementById("registerCard").classList.add("hidden");
+  document.getElementById("loginCard").classList.remove("hidden");
+}
+
+// LOGIN
+function login(){
+  const email = document.getElementById("loginEmail").value;
+  const pass = document.getElementById("loginPassword").value;
+
+  const savedUser = JSON.parse(localStorage.getItem("user"));
+
+  if(!savedUser){
+    alert("No account found. Please register.");
+    return;
+  }
+
+  if(email === savedUser.email && pass === savedUser.pass){
+    document.getElementById("loginCard").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+  } else {
+    alert("Invalid login details");
+  }
+}
+
+function logout(){
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("loginCard").classList.remove("hidden");
+}
+
+// TASK SYSTEM
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+function saveTasks(){
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function renderTasks(){
+  const list = document.getElementById("taskList");
+  list.innerHTML = "";
+
+  tasks.forEach((task,index)=>{
+    const li = document.createElement("li");
+    li.textContent = task.name + " - " + task.time;
+
+    const btn = document.createElement("button");
+    btn.textContent = "Done";
+    btn.onclick = ()=>{
+      tasks.splice(index,1);
+      saveTasks();
+      renderTasks();
+    };
+
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
+}
+
+function addTask(){
+  const name = document.getElementById("taskInput").value;
+  const time = document.getElementById("timeInput").value;
+
+  if(!name || !time){
+    alert("Fill all fields");
+    return;
+  }
+
+  tasks.push({name,time});
+  saveTasks();
+  renderTasks();
+}
+
+// TIMER
+let time = 0;
+let timer = null;
+
+function startTimer(){
+  const input = document.getElementById("customTime").value;
+
+  if(!input){
+    alert("Enter time");
+    return;
+  }
+
+  if(timer) return;
+
+  time = input * 60;
+
+  timer = setInterval(()=>{
+    let m = Math.floor(time/60);
+    let s = time % 60;
+    document.getElementById("timerDisplay").textContent = m + ":" + (s<10?"0":"") + s;
+    time--;
+
+    if(time < 0){
+      clearInterval(timer);
+      timer = null;
+      alert("Time is up!");
+    }
+  },1000);
+}
+
+function resetTimer(){
+  clearInterval(timer);
+  timer = null;
+  document.getElementById("timerDisplay").textContent = "00:00";
+}
+
+renderTasks();
+</script></body>
+</html>
