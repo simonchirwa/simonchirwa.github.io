@@ -6,116 +6,48 @@
 <title>Improve your time schedule with Simon Chirwa</title>
 
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#e6f4ff;
-color:#003b5c;
-transition:0.3s;
-}
-
-/* DARK MODE */
-.dark{
-background:#0d1117;
-color:white;
-}
+body{margin:0;font-family:Arial;background:#e6f4ff;color:#003b5c;}
+.dark{background:#0d1117;color:white;}
 
 #start{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background:#b3e0ff;
-text-align:center;
+height:100vh;display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+background:#b3e0ff;text-align:center;
 }
 
 button{
-padding:10px;
-margin-top:10px;
-width:220px;
-background:#0077b6;
-color:white;
-border:none;
-border-radius:5px;
-cursor:pointer;
+padding:10px;margin-top:10px;width:220px;
+background:#0077b6;color:white;border:none;border-radius:5px;
 }
 
-.page{
-display:none;
-max-width:420px;
-margin:50px auto;
-padding:20px;
-background:white;
-border-radius:10px;
-}
-
+.page{display:none;max-width:420px;margin:50px auto;padding:20px;background:white;border-radius:10px;}
 #dashboard{display:none;}
 
 #topBar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px;
-background:#0077b6;
-color:white;
+display:flex;justify-content:space-between;
+align-items:center;padding:15px;background:#0077b6;color:white;
 }
 
-#clock{
-font-weight:bold;
-}
+#topRight{display:flex;flex-direction:column;align-items:flex-end;}
+#clock{font-size:14px;font-weight:bold;}
 
 #menu{
-display:none;
-position:absolute;
-right:10px;
-top:60px;
-background:white;
-width:260px;
-border-radius:8px;
-border:1px solid #ccc;
-z-index:1000;
+display:none;position:absolute;right:10px;top:60px;
+background:white;width:260px;border-radius:8px;border:1px solid #ccc;
 }
 
-#menu p{
-margin:0;
-padding:10px;
-border-bottom:1px solid #eee;
-cursor:pointer;
-}
+#menu p{padding:10px;margin:0;border-bottom:1px solid #eee;cursor:pointer;}
+#content{padding:15px;}
 
-#content{
-padding:15px;
-}
-
-.timerBox{
-background:white;
-padding:15px;
-margin-top:10px;
-border-radius:8px;
-}
-
-.log{
-background:#cceeff;
-padding:10px;
-margin-top:10px;
-border-radius:6px;
-}
+.timerBox{background:white;padding:15px;margin-top:10px;border-radius:8px;}
+.log{background:#cceeff;padding:10px;margin-top:10px;border-radius:6px;}
 
 #alarm{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
-color:white;
-font-size:40px;
-text-align:center;
-padding-top:200px;
-z-index:9999;
+display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+background:black;color:white;font-size:40px;text-align:center;padding-top:200px;
 }
+
+#backBtn{display:none;margin:10px;}
 </style>
 </head>
 
@@ -131,6 +63,7 @@ z-index:9999;
 <div id="auth" class="page">
 <h2>Create / Login</h2>
 
+<h3>Create Account</h3>
 <input type="email" id="email" placeholder="Email">
 <input type="text" id="username" placeholder="Username">
 <input type="password" id="pass" placeholder="Password">
@@ -140,6 +73,7 @@ z-index:9999;
 
 <hr>
 
+<h3>Login</h3>
 <input type="email" id="logEmail" placeholder="Login Email">
 <input type="password" id="logPass" placeholder="Login Password">
 <button onclick="login()">Login</button>
@@ -151,52 +85,61 @@ z-index:9999;
 
 <div id="topBar">
 <h3>Improve your time schedule with Simon Chirwa</h3>
-<div>
+<div id="topRight">
 <span id="clock"></span>
-<span onclick="toggleMenu()" style="font-size:26px;cursor:pointer;"> ⋮ </span>
+<span onclick="toggleMenu()" style="font-size:26px;">⋮</span>
 </div>
 </div>
 
-<!-- MENU -->
 <div id="menu">
-<p onclick="openSettings()">Settings (Clock + Theme)</p>
-<p onclick="openAppearance()">Appearance (Dark/Light mode)</p>
-<p onclick="openHistory()">History</p>
-<p onclick="openAccount()">Account Settings</p>
-<p onclick="openHelp()">Help & Feedback</p>
+<p onclick="openSettings();closeMenu()">Settings</p>
+<p onclick="openAppearance();closeMenu()">Appearance</p>
+<p onclick="openHistory();closeMenu()">History</p>
+<p onclick="openAccount();closeMenu()">Account Settings</p>
+<p onclick="openHelp();closeMenu()">Help & Feedback</p>
 </div>
+
+<button id="backBtn" onclick="goBack()">⬅ Previous Page</button>
 
 <div id="content">
 
 <h2>Home</h2>
 <p>
-This system helps students improve time management, discipline, and productivity. It ensures you never miss study sessions or important tasks.
-It builds consistency and supports academic success.
-It helps reduce procrastination and wasted time.
-It improves focus and learning habits.
-It organizes daily schedules efficiently.
-It is designed for student success.
-It is simple, powerful, and effective.
-It guides you toward better performance.
+This system helps students improve time management and discipline.<br>
+It builds strong study habits and consistency in learning.<br>
+It reduces procrastination and wasted time every day.<br>
+It helps students stay focused on academic goals.<br>
+It improves productivity through smart reminders.<br>
+It supports better planning of daily activities.<br>
+It makes studying more organized and structured.<br>
+It is designed to support student success effectively.<br>
+It provides simple tools for better time control.<br>
+It helps users achieve better results in school and life.
 </p>
 
 <h2>Services</h2>
 <p>
-We provide smart study timers, timetable reminders, and custom alerts.
-It helps students stay organized and focused.
-It improves academic performance and discipline.
-It ensures no missed classes or tasks.
-It supports daily planning and structure.
-It increases productivity and consistency.
-It reduces stress and forgetfulness.
-It is a complete study assistant system.
+We provide smart study timers for better learning control.<br>
+We help students organize their daily academic schedules.<br>
+We improve discipline through automatic reminders.<br>
+We support timetable tracking and management tools.<br>
+We allow custom alerts for personal productivity.<br>
+We help reduce missed classes and forgotten tasks.<br>
+We improve focus and concentration during study time.<br>
+We are designed to make studying more efficient.<br>
+We support learners in achieving better academic success.<br>
+We provide simple tools for everyday school life.
 </p>
 
 <h2>Timers</h2>
 
 <div class="timerBox">
 <h3>Study Timer</h3>
-<p>Set focused study sessions with reminders.</p>
+<p>
+This timer helps you focus fully during study sessions.<br>
+It allows you to set a specific study time easily.<br>
+When the time reaches, it alerts you to stop or rest.
+</p>
 <input type="date" id="sDate">
 <input type="time" id="sTime">
 <button onclick="setTimer('study')">Set</button>
@@ -204,15 +147,12 @@ It is a complete study assistant system.
 
 <div class="timerBox">
 <h3>Timetable Timer</h3>
-
-<p>Track your classes and schedules easily. Upload your timetable and set reminders so you never miss any school activity.</p>
-
-<!-- ✔ ADDED ONLY THIS -->
-<label>Upload Timetable:</label>
+<p>
+This timer helps you manage your school timetable.<br>
+It reminds you before classes or lessons begin.<br>
+It ensures you never miss important sessions.
+</p>
 <input type="file" id="timetableFile">
-
-<br><br>
-
 <input type="date" id="tDate">
 <input type="time" id="tTime">
 <button onclick="setTimer('table')">Set</button>
@@ -220,7 +160,11 @@ It is a complete study assistant system.
 
 <div class="timerBox">
 <h3>Custom Timer</h3>
-<p>Create personal reminders for anything.</p>
+<p>
+This timer allows you to create your own reminders.<br>
+You can use it for any personal activity or task.<br>
+It helps you stay organized throughout your day.
+</p>
 <input type="text" id="name">
 <input type="date" id="cDate">
 <input type="time" id="cTime">
@@ -240,167 +184,158 @@ It is a complete study assistant system.
 
 /* CLOCK */
 setInterval(()=>{
-document.getElementById("clock").innerText =
-new Date().toLocaleTimeString();
+clock.innerText=new Date().toLocaleTimeString();
 },1000);
 
 /* START */
 function goAuth(){
-document.getElementById("start").style.display="none";
-document.getElementById("auth").style.display="block";
+start.style.display="none";
+auth.style.display="block";
 }
 
 /* REGISTER */
 function register(){
-let email=document.getElementById("email").value;
-let username=document.getElementById("username").value;
-let pass=document.getElementById("pass").value;
-let confirm=document.getElementById("confirm").value;
-
-if(pass!==confirm){
-msg.style.color="red";
+if(pass.value!==confirm.value){
 msg.innerText="Passwords do not match";
 return;
 }
-
-localStorage.setItem("user",JSON.stringify({email,username,pass}));
-
-msg.style.color="green";
-msg.innerHTML=
-"Account Created ✔<br>Email: "+email+
-"<br>Username: "+username+
-"<br>Password: "+pass;
+localStorage.setItem("user",JSON.stringify({
+email:email.value,
+username:username.value,
+pass:pass.value
+}));
+msg.innerText="Account Created ✔";
 }
 
 /* LOGIN */
 function login(){
 let u=JSON.parse(localStorage.getItem("user"));
-
 if(u && u.email===logEmail.value && u.pass===logPass.value){
 auth.style.display="none";
 dashboard.style.display="block";
 }else{
-logMsg.style.color="red";
 logMsg.innerText="Wrong credentials";
 }
 }
 
 /* MENU */
 function toggleMenu(){
-menu.style.display =
-menu.style.display==="block"?"none":"block";
+menu.style.display=menu.style.display==="block"?"none":"block";
+}
+function closeMenu(){menu.style.display="none";}
+
+/* BACK */
+let historyStack=[];
+function goBack(){
+closeMenu();
+let last=historyStack.pop();
+if(last){content.innerHTML=last;}else{backBtn.style.display="none";}
 }
 
-/* DARK MODE */
+/* SETTINGS */
+function openSettings(){
+historyStack.push(content.innerHTML);
+content.innerHTML="<h2>Settings</h2>";
+backBtn.style.display="block";
+}
+
+/* APPEARANCE */
 function openAppearance(){
-document.body.classList.toggle("dark");
+historyStack.push(content.innerHTML);
+content.innerHTML=`
+<h2>Appearance</h2>
+<button onclick="document.body.classList.toggle('dark')">Toggle Dark Mode</button>
+`;
+backBtn.style.display="block";
 }
 
 /* HISTORY */
 function openHistory(){
 let data=JSON.parse(localStorage.getItem("timers"))||[];
-
 let html="<h2>History</h2>";
-
-if(data.length===0){
-html+="<p>No timers yet</p>";
-}else{
 data.forEach(t=>{
-html+=`<div class="log">✔ ${t.time}<br>${t.purpose}</div>`;
+html+=`<div class='log'>${t.time}<br>${t.purpose}</div>`;
 });
-}
-
+historyStack.push(content.innerHTML);
 content.innerHTML=html;
+backBtn.style.display="block";
 }
 
 /* ACCOUNT */
 function openAccount(){
+historyStack.push(content.innerHTML);
 content.innerHTML=`
 <h2>Account Settings</h2>
 <input type="password" id="newPass" placeholder="New Password">
 <input type="password" id="confirmPass" placeholder="Confirm Password">
-<button onclick="updatePass()">Update</button>
+<button onclick="updatePass()">Update Password</button>
 <p id="accMsg"></p>
 `;
+backBtn.style.display="block";
 }
 
 function updatePass(){
 let u=JSON.parse(localStorage.getItem("user"));
-
 if(newPass.value!==confirmPass.value){
-accMsg.style.color="red";
 accMsg.innerText="Passwords do not match";
 return;
 }
-
 u.pass=newPass.value;
 localStorage.setItem("user",JSON.stringify(u));
-
-accMsg.style.color="green";
-accMsg.innerText="Password updated";
+accMsg.innerText="Password updated ✔";
 }
 
 /* HELP */
 function openHelp(){
+historyStack.push(content.innerHTML);
 content.innerHTML=`
 <h2>Help & Feedback</h2>
-<p>1. Create account<br>2. Login<br>3. Set timers<br>4. Check history</p>
-
+<p>
+This application helps you manage time and improve study habits.<br>
+Create an account using email, username, password and confirm password.<br>
+Login using your email and password.<br>
+Use study timer for focused sessions.<br>
+Use timetable timer for class reminders.<br>
+Use custom timer for personal tasks.<br>
+Each timer alerts when time is reached.<br>
+Check history to track your timers.<br>
+Use settings to customize your experience.<br>
+This system improves productivity and discipline.
+</p>
 <textarea id="fb" style="width:100%;height:80px;"></textarea>
 <button onclick="sendFB()">Send</button>
 <p id="fbMsg"></p>
 `;
+backBtn.style.display="block";
 }
 
 function sendFB(){
 localStorage.setItem("feedback",fb.value);
-fbMsg.style.color="green";
 fbMsg.innerText="Sent ✔";
 }
 
 /* TIMER */
 function setTimer(type){
 
-let time="";
-let purpose="";
+let time="",purpose="";
 
-if(type==="study"){
-time=sDate.value+"T"+sTime.value;
-purpose="Study Timer";
-}
-
-if(type==="table"){
-time=tDate.value+"T"+tTime.value;
-purpose="Timetable Timer";
-}
-
-if(type==="custom"){
-time=cDate.value+"T"+cTime.value;
-purpose="Custom: "+name.value;
-}
+if(type==="study"){time=sDate.value+"T"+sTime.value;purpose="Study Timer";}
+if(type==="table"){time=tDate.value+"T"+tTime.value;purpose="Timetable Timer";}
+if(type==="custom"){time=cDate.value+"T"+cTime.value;purpose="Custom "+name.value;}
 
 let list=JSON.parse(localStorage.getItem("timers"))||[];
 list.push({time,purpose});
 localStorage.setItem("timers",JSON.stringify(list));
 
-let log=document.createElement("div");
-log.className="log";
-log.innerHTML="✔ Timer Set<br>"+time+"<br>"+purpose;
-content.appendChild(log);
+alert("Timer set for "+time+" ("+purpose+")");
 
-let diff=new Date(time)-new Date();
-
-if(diff>0){
 setTimeout(()=>{
 alarm.style.display="block";
-alarmText.innerText="Time Up!";
-},diff);
-}
+alarmText.innerText=purpose+" Time Up!";
+},new Date(time)-new Date());
 }
 
-function stopAlarm(){
-alarm.style.display="none";
-}
+function stopAlarm(){alarm.style.display="none";}
 
 </script>
 
