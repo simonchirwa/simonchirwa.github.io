@@ -1,342 +1,331 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Improve your time schedule with Simon Chirwa</title>
-
-<style>
-body{margin:0;font-family:Arial;background:#e6f4ff;color:#003b5c;}
-.dark{background:#0d1117;color:white;}
-
-#start{
-height:100vh;display:flex;flex-direction:column;
-justify-content:center;align-items:center;
-background:#b3e0ff;text-align:center;
-}
-
-button{
-padding:10px;margin-top:10px;width:220px;
-background:#0077b6;color:white;border:none;border-radius:5px;
-}
-
-.page{display:none;max-width:420px;margin:50px auto;padding:20px;background:white;border-radius:10px;}
-#dashboard{display:none;}
-
-#topBar{
-display:flex;justify-content:space-between;
-align-items:center;padding:15px;background:#0077b6;color:white;
-}
-
-#topRight{display:flex;flex-direction:column;align-items:flex-end;}
-#clock{font-size:14px;font-weight:bold;}
-
-#menu{
-display:none;position:absolute;right:10px;top:60px;
-background:white;width:260px;border-radius:8px;border:1px solid #ccc;
-}
-
-#menu p{padding:10px;margin:0;border-bottom:1px solid #eee;cursor:pointer;}
-#content{padding:15px;}
-
-.timerBox{background:white;padding:15px;margin-top:10px;border-radius:8px;}
-.log{background:#cceeff;padding:10px;margin-top:10px;border-radius:6px;}
-
-#alarm{
-display:none;position:fixed;top:0;left:0;width:100%;height:100%;
-background:black;color:white;font-size:40px;text-align:center;padding-top:200px;
-}
-
-#backBtn{display:none;margin:10px;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon Chirwa Smart Study Remainder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 12px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        section {
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        h2 {
+            color: blue;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #aaa;
+        }
+        input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="time"], input[type="date"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        #dashboard {
+            display: none;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        .timer-container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #alarmOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            color: white;
+            font-size: 40px;
+            text-align: center;
+            padding-top: 200px;
+            z-index: 1000;
+        }
+    </style>
 </head>
+<body><header>
+    <h1>Simon Chirwa Smart Study Remainder</h1>
+</header>
 
-<body>
+<main>
+    <!-- LOGIN / CREATE ACCOUNT -->
+    <div class="form-container" id="loginForm">
+        <h2>Login or Create Account</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="tel" id="number" placeholder="Phone Number">
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+        <button type="button" onclick="createAccount()">Create Account</button>
+        <button type="button" onclick="login()">Login</button>
+        <p id="loginMessage"></p>
+    </div>
 
-<!-- START -->
-<div id="start">
-<h1>Improve your time schedule with Simon Chirwa</h1>
-<button onclick="goAuth()">Get Started</button>
+    <!-- DASHBOARD -->
+    <div id="dashboard">
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#service">Service</a>
+            <a href="#timer">Timer</a>
+            <a href="#settings">Settings</a>
+            <a href="#howto">How to Use</a>
+        </nav>
+
+        <section id="home">
+            <p><strong>Welcome to Simon Chirwa Smart Study Remainder Web</strong></p>
+            <p><strong>Aim:</strong> Improve your time schedule by 98%.</p>
+            <p><strong>Our Service:</strong> This website helps you make your own time schedule for punctuality, time management and effective studying.</p>
+            <p><strong>Empowering Zambian students and citizens:</strong> We provide comprehensive time schedule support to help students achieve their education dreams and build successful careers.</p>
+            <p><strong>New Updates:</strong> <span id="updates">No updates yet.</span></p>
+            <p><strong>Quick Access:</strong> Simonchirwa1502@gmail.com<br>Contact: 0772825863 or 0967867406</p>
+        </section>
+
+        <section id="service">
+            <h2>Service</h2>
+            <h3>1. Studying Reminder Timer and Purpose</h3>
+            <p>Helps you set timers for studying sessions to maintain focus and track study durations.</p>
+            <h3>2. Automatic Timetable Schedule Reminder</h3>
+            <p>Automatically reminds you of your planned tasks, classes, or study sessions.</p>
+            <p>Upload your timetable: <input type="file" id="timetableFile" accept=".pdf,.doc,.docx,.xlsx"></p>
+            <h3>3. Provision for Documents & Set Own Timer</h3>
+            <p>You can upload study materials and create custom timers for different activities.</p>
+        </section>
+
+        <section id="timer">
+            <h2>Timer</h2>
+
+            <div class="timer-container">
+                <h3>1. Studying Reminder</h3>
+                <p>Purpose: Focused study session reminder for effective learning.</p>
+                <input type="date" id="studyDate">
+                <input type="time" id="studyTime">
+                <button onclick="setStudyReminder()">Set Study Reminder</button>
+                <p id="studyMsg"></p>
+            </div>
+
+            <div class="timer-container">
+                <h3>2. Timetable Reminder</h3>
+                <p>Purpose: Automatically remind you of timetable tasks and classes.</p>
+                <input type="date" id="timetableDate">
+                <input type="time" id="timetableTime">
+                <input type="file" id="uploadTimetable" accept=".pdf,.doc,.docx,.xlsx">
+                <button onclick="setTimetableReminder()">Set Timetable Reminder</button>
+                <p id="timetableMsg"></p>
+            </div>
+
+            <div class="timer-container">
+                <h3>3. Set Own Reminder</h3>
+                <p>Purpose: Custom reminder for any activity you choose.</p>
+                <input type="text" id="ownReminderName" placeholder="Reminder Name">
+                <input type="date" id="ownDate">
+                <input type="time" id="ownTime">
+                <button onclick="setOwnReminder()">Set Reminder</button>
+                <p id="ownMsg"></p>
+            </div>
+        </section>
+
+        <section id="settings">
+            <h2>Settings</h2>
+            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <h3>Update Password</h3>
+            <input type="password" id="newPassword" placeholder="New Password">
+            <input type="password" id="confirmNewPassword" placeholder="Confirm New Password">
+            <button onclick="updatePassword()">Update Password</button>
+            <p id="updateMessage"></p>
+        </section>
+
+        <section id="howto">
+            <h2>How to Use</h2>
+            <ol>
+                <li>Login or create an account with your email, username, and password.</li>
+                <li>Navigate through Home, Service, Timer, Settings, and How to Use sections.</li>
+                <li>Use the Timer section to set studying reminders, timetable reminders, or your own custom reminders.</li>
+                <li>Upload documents or study materials if needed.</li>
+                <li>When a reminder triggers, the screen will show a full alarm with message: "Time to Study" for at least 30 minutes until dismissed.</li>
+                <li>Customize your account settings, toggle dark mode, or update your password.</li>
+            </ol>
+        </section>
+    </div>
+</main>
+
+<div id="alarmOverlay">
+    <p>Time to Study!</p>
+    <button onclick="dismissAlarm()">Dismiss</button>
 </div>
 
-<!-- AUTH -->
-<div id="auth" class="page">
-<h2>Create / Login</h2>
-
-<h3>Create Account</h3>
-<input type="email" id="email" placeholder="Email">
-<input type="text" id="username" placeholder="Username">
-<input type="password" id="pass" placeholder="Password">
-<input type="password" id="confirm" placeholder="Confirm Password">
-<button onclick="register()">Create Account</button>
-<p id="msg"></p>
-
-<hr>
-
-<h3>Login</h3>
-<input type="email" id="logEmail" placeholder="Login Email">
-<input type="password" id="logPass" placeholder="Login Password">
-<button onclick="login()">Login</button>
-<p id="logMsg"></p>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashboard">
-
-<div id="topBar">
-<h3>Improve your time schedule with Simon Chirwa</h3>
-<div id="topRight">
-<span id="clock"></span>
-<span onclick="toggleMenu()" style="font-size:26px;">⋮</span>
-</div>
-</div>
-
-<div id="menu">
-<p onclick="openSettings();closeMenu()">Settings</p>
-<p onclick="openAppearance();closeMenu()">Appearance</p>
-<p onclick="openHistory();closeMenu()">History</p>
-<p onclick="openAccount();closeMenu()">Account Settings</p>
-<p onclick="openHelp();closeMenu()">Help & Feedback</p>
-</div>
-
-<button id="backBtn" onclick="goBack()">⬅ Previous Page</button>
-
-<div id="content">
-
-<h2>Home</h2>
-<p>
-This system helps students improve time management and discipline.<br>
-It builds strong study habits and consistency in learning.<br>
-It reduces procrastination and wasted time every day.<br>
-It helps students stay focused on academic goals.<br>
-It improves productivity through smart reminders.<br>
-It supports better planning of daily activities.<br>
-It makes studying more organized and structured.<br>
-It is designed to support student success effectively.<br>
-It provides simple tools for better time control.<br>
-It helps users achieve better results in school and life.
-</p>
-
-<h2>Services</h2>
-<p>
-We provide smart study timers for better learning control.<br>
-We help students organize their daily academic schedules.<br>
-We improve discipline through automatic reminders.<br>
-We support timetable tracking and management tools.<br>
-We allow custom alerts for personal productivity.<br>
-We help reduce missed classes and forgotten tasks.<br>
-We improve focus and concentration during study time.<br>
-We are designed to make studying more efficient.<br>
-We support learners in achieving better academic success.<br>
-We provide simple tools for everyday school life.
-</p>
-
-<h2>Timers</h2>
-
-<div class="timerBox">
-<h3>Study Timer</h3>
-<p>
-This timer helps you focus fully during study sessions.<br>
-It allows you to set a specific study time easily.<br>
-When the time reaches, it alerts you to stop or rest.
-</p>
-<input type="date" id="sDate">
-<input type="time" id="sTime">
-<button onclick="setTimer('study')">Set</button>
-</div>
-
-<div class="timerBox">
-<h3>Timetable Timer</h3>
-<p>
-This timer helps you manage your school timetable.<br>
-It reminds you before classes or lessons begin.<br>
-It ensures you never miss important sessions.
-</p>
-<input type="file" id="timetableFile">
-<input type="date" id="tDate">
-<input type="time" id="tTime">
-<button onclick="setTimer('table')">Set</button>
-</div>
-
-<div class="timerBox">
-<h3>Custom Timer</h3>
-<p>
-This timer allows you to create your own reminders.<br>
-You can use it for any personal activity or task.<br>
-It helps you stay organized throughout your day.
-</p>
-<input type="text" id="name">
-<input type="date" id="cDate">
-<input type="time" id="cTime">
-<button onclick="setTimer('custom')">Set</button>
-</div>
-
-</div>
-</div>
-
-<!-- ALARM -->
-<div id="alarm">
-<p id="alarmText"></p>
-<button onclick="stopAlarm()">Stop</button>
-</div>
+<footer>
+    &copy; 2026 Simon Chirwa Smart Study Remainder
+</footer>
 
 <script>
+    let alarmTimeout;
 
-/* CLOCK */
-setInterval(()=>{
-clock.innerText=new Date().toLocaleTimeString();
-},1000);
+    function createAccount() {
+        const email = document.getElementById('email').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const message = document.getElementById('loginMessage');
 
-/* START */
-function goAuth(){
-start.style.display="none";
-auth.style.display="block";
-}
+        if (!email || !username || !password || !confirmPassword) {
+            message.textContent = 'Please fill all required fields!';
+            message.style.color = 'red';
+            return;
+        }
+        if (password !== confirmPassword) {
+            message.textContent = 'Passwords do not match!';
+            message.style.color = 'red';
+            return;
+        }
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        if (users.some(u => u.email === email)) {
+            message.textContent = 'Email already exists!';
+            message.style.color = 'red';
+            return;
+        }
+        users.push({ email, username, password });
+        localStorage.setItem('users', JSON.stringify(users));
+        message.textContent = 'Account created successfully! Now login.';
+        message.style.color = 'green';
+    }
 
-/* REGISTER */
-function register(){
-if(pass.value!==confirm.value){
-msg.innerText="Passwords do not match";
-return;
-}
-localStorage.setItem("user",JSON.stringify({
-email:email.value,
-username:username.value,
-pass:pass.value
-}));
-msg.innerText="Account Created ✔";
-}
+    function login() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const message = document.getElementById('loginMessage');
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.email === email && u.password === password);
+        if (user) {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        } else {
+            message.textContent = 'Invalid email or password!';
+            message.style.color = 'red';
+        }
+    }
 
-/* LOGIN */
-function login(){
-let u=JSON.parse(localStorage.getItem("user"));
-if(u && u.email===logEmail.value && u.pass===logPass.value){
-auth.style.display="none";
-dashboard.style.display="block";
-}else{
-logMsg.innerText="Wrong credentials";
-}
-}
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+    }
 
-/* MENU */
-function toggleMenu(){
-menu.style.display=menu.style.display==="block"?"none":"block";
-}
-function closeMenu(){menu.style.display="none";}
+    function updatePassword() {
+        const newPass = document.getElementById('newPassword').value;
+        const confirmPass = document.getElementById('confirmNewPassword').value;
+        const msg = document.getElementById('updateMessage');
 
-/* BACK */
-let historyStack=[];
-function goBack(){
-closeMenu();
-let last=historyStack.pop();
-if(last){content.innerHTML=last;}else{backBtn.style.display="none";}
-}
+        if (!newPass || !confirmPass) { msg.textContent='Please fill both fields!'; msg.style.color='red'; return; }
+        if (newPass !== confirmPass) { msg.textContent='Passwords do not match!'; msg.style.color='red'; return; }
 
-/* SETTINGS */
-function openSettings(){
-historyStack.push(content.innerHTML);
-content.innerHTML="<h2>Settings</h2>";
-backBtn.style.display="block";
-}
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        if (users.length > 0) { users[0].password = newPass; localStorage.setItem('users', JSON.stringify(users)); msg.textContent='Password updated successfully!'; msg.style.color='green'; }
 
-/* APPEARANCE */
-function openAppearance(){
-historyStack.push(content.innerHTML);
-content.innerHTML=`
-<h2>Appearance</h2>
-<button onclick="document.body.classList.toggle('dark')">Toggle Dark Mode</button>
-`;
-backBtn.style.display="block";
-}
+        document.getElementById('newPassword').value='';
+        document.getElementById('confirmNewPassword').value='';
+    }
 
-/* HISTORY */
-function openHistory(){
-let data=JSON.parse(localStorage.getItem("timers"))||[];
-let html="<h2>History</h2>";
-data.forEach(t=>{
-html+=`<div class='log'>${t.time}<br>${t.purpose}</div>`;
-});
-historyStack.push(content.innerHTML);
-content.innerHTML=html;
-backBtn.style.display="block";
-}
+    function showAlarm(message){
+        document.getElementById('alarmOverlay').style.display='block';
+        document.getElementById('alarmOverlay').querySelector('p').textContent = message;
+        alarmTimeout = setTimeout(()=>{}, 30*60*1000); // 30 minutes
+    }
 
-/* ACCOUNT */
-function openAccount(){
-historyStack.push(content.innerHTML);
-content.innerHTML=`
-<h2>Account Settings</h2>
-<input type="password" id="newPass" placeholder="New Password">
-<input type="password" id="confirmPass" placeholder="Confirm Password">
-<button onclick="updatePass()">Update Password</button>
-<p id="accMsg"></p>
-`;
-backBtn.style.display="block";
-}
+    function dismissAlarm(){
+        document.getElementById('alarmOverlay').style.display='none';
+        clearTimeout(alarmTimeout);
+    }
 
-function updatePass(){
-let u=JSON.parse(localStorage.getItem("user"));
-if(newPass.value!==confirmPass.value){
-accMsg.innerText="Passwords do not match";
-return;
-}
-u.pass=newPass.value;
-localStorage.setItem("user",JSON.stringify(u));
-accMsg.innerText="Password updated ✔";
-}
+    function setStudyReminder(){
+        const date = document.getElementById('studyDate').value;
+        const time = document.getElementById('studyTime').value;
+        document.getElementById('studyMsg').textContent=`Study reminder set for ${date} at ${time}`;
+        scheduleAlarm(date,time,'Time to Study!');
+    }
 
-/* HELP */
-function openHelp(){
-historyStack.push(content.innerHTML);
-content.innerHTML=`
-<h2>Help & Feedback</h2>
-<p>
-This application helps you manage time and improve study habits.<br>
-Create an account using email, username, password and confirm password.<br>
-Login using your email and password.<br>
-Use study timer for focused sessions.<br>
-Use timetable timer for class reminders.<br>
-Use custom timer for personal tasks.<br>
-Each timer alerts when time is reached.<br>
-Check history to track your timers.<br>
-Use settings to customize your experience.<br>
-This system improves productivity and discipline.
-</p>
-<textarea id="fb" style="width:100%;height:80px;"></textarea>
-<button onclick="sendFB()">Send</button>
-<p id="fbMsg"></p>
-`;
-backBtn.style.display="block";
-}
+    function setTimetableReminder(){
+        const date = document.getElementById('timetableDate').value;
+        const time = document.getElementById('timetableTime').value;
+        document.getElementById('timetableMsg').textContent=`Timetable reminder set for ${date} at ${time}`;
+        scheduleAlarm(date,time,'Time for your Timetable task!');
+    }
 
-function sendFB(){
-localStorage.setItem("feedback",fb.value);
-fbMsg.innerText="Sent ✔";
-}
+    function setOwnReminder(){
+        const name = document.getElementById('ownReminderName').value;
+        const date = document.getElementById('ownDate').value;
+        const time = document.getElementById('ownTime').value;
+        document.getElementById('ownMsg').textContent=`Reminder '${name}' set for ${date} at ${time}`;
+        scheduleAlarm(date,time,`Time for '${name}'!`);
+    }
 
-/* TIMER */
-function setTimer(type){
-
-let time="",purpose="";
-
-if(type==="study"){time=sDate.value+"T"+sTime.value;purpose="Study Timer";}
-if(type==="table"){time=tDate.value+"T"+tTime.value;purpose="Timetable Timer";}
-if(type==="custom"){time=cDate.value+"T"+cTime.value;purpose="Custom "+name.value;}
-
-let list=JSON.parse(localStorage.getItem("timers"))||[];
-list.push({time,purpose});
-localStorage.setItem("timers",JSON.stringify(list));
-
-alert("Timer set for "+time+" ("+purpose+")");
-
-setTimeout(()=>{
-alarm.style.display="block";
-alarmText.innerText=purpose+" Time Up!";
-},new Date(time)-new Date());
-}
-
-function stopAlarm(){alarm.style.display="none";}
-
+    function scheduleAlarm(dateStr,timeStr,message){
+        const now = new Date();
+        const alarmTime = new Date(`${dateStr}T${timeStr}`);
+        const diff = alarmTime - now;
+        if(diff>0){ setTimeout(()=>showAlarm(message), diff); }
+    }
 </script>
 
 </body>
